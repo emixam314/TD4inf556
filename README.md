@@ -1,5 +1,7 @@
 # TD4inf556
 
+This TD was realized by Maxime Benard and Anatole Forgiel
+
 # Q2-Q3: 
   La méthode naïve utilise deux boucles imbriquées qui dans le pire des scénario engendre une complexité de O(m²).
   De plus la méthode fait appel à une fonction _add_columns_ qui compare deux à deux les éléments de chaque liste en temps linéaire grace à une fonction XOR. Cette comparaison d'une complexité en O(m) qui mutipliée à la complexité précédente produit une complexité finale dans le pire des cas de O(m³).

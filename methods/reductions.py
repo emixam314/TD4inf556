@@ -7,13 +7,11 @@ class Reduction:
 
     def low_pivot(self, j):
         """Returns the row index of the lowest 1 in column j, or None if the column is empty."""
-        if self.B.B[j]:
-            return max(self.B.B[j]) 
-        return None
+        return self.B.low_pivot(j)
 
     def add_columns(self, j, i):
         """Adds column i to column j (B[j] = B[j] + B[i]) in Z2."""
-        self.B.B[j] ^= self.B.B[i]  
+        self.B.B[j] ^= self.B.B[i]
 
     def reduce_boundary_matrix(self):
         """Reduces the sparse boundary matrix B using column operations in Z2."""
@@ -23,13 +21,23 @@ class Reduction:
 class Naive_reduction(Reduction):
 
     def reduce_boundary_matrix(self):
-        """Reduces the sparse boundary matrix B using column operations in Z2."""
         for j in range(self.n):
-            for l in range(j):
+            while True:
                 pivot = self.low_pivot(j)
-                l_pivot = self.low_pivot(l)
-                if pivot is not None and pivot == l_pivot: 
-                    self.add_columns(j, l)
+                if pivot is None:
+                    break
+
+                found = False
+                for l in range(j):
+                    l_pivot = self.low_pivot(l)
+                    if l_pivot is not None and l_pivot == pivot:
+                        self.add_columns(j, l)
+                        found = True
+                        break
+                
+                if not found:
+                    break
+
         return self.B
     
 class Optimal_reduction(Reduction):
@@ -39,7 +47,6 @@ class Optimal_reduction(Reduction):
         self.pivot_columns = {}
 
     def reduce_boundary_matrix(self):
-        """Reduces the sparse boundary matrix B using column operations in Z2."""
         for j in range(self.n):
             while True:
                 pivot = self.low_pivot(j)

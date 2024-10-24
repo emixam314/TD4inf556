@@ -23,6 +23,12 @@ class BoundaryMatrix:
         
         return BoundaryMatrix(B)
     
+    def low_pivot(self, j):
+        """Returns the row index of the lowest 1 in column j, or None if the column is empty."""
+        if self.B[j]:
+            return max(self.B[j])
+        return None
+
     def write_sparse_boundary_matrix_to_file(self, output_filename):
         with open(output_filename, 'w') as file:
             for j, col in enumerate(self.B):
